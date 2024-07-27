@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EE_HANDS
 
 //#define QUICK_TAP_TERM 0
-//#define TAPPING_TERM 100
+#define TAPPING_TERM 300
 
 #define CAPS_WORD_IDLE_TIMEOUT 15000
 // #define MK_3_SPEED
