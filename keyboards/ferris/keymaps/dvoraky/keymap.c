@@ -51,6 +51,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SH_SPC  RSFT_T(KC_SPC)
 #define F11_GUI LGUI_T(KC_F11)
 #define F12_GUI LGUI_T(KC_F12)
+#define F5_SHFT LSFT_T(KC_F5)
+#define F6_SHFT LSFT_T(KC_F6)
+#define F12_GUI LGUI_T(KC_F12)
 
 #define ALT_UP  LALT(KC_UP)
 #define ALT_LF  LALT(KC_LEFT)
@@ -111,7 +114,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 
     return false;
-    
+
   case EXIT_VM2:
     if (record->event.pressed) {
       SEND_STRING(
@@ -157,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
          KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
+        KC_F1,   KC_F2,   KC_F3,   KC_F4, F5_SHFT,                      F6_SHFT,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                           MO_LAYR, F11_GUI,    F12_GUI,  KC_DOT
                                       //`-----------------'  `-----------------'

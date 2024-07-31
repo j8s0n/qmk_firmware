@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define N_SFT   LSFT_T(KC_N)
 #define S_ALT   RALT_T(KC_S)
 
+#define F5_SHFT LSFT_T(KC_F5)
+#define F6_SHFT LSFT_T(KC_F6)
 #define ZERO_SH LSFT_T(KC_0)
 #define SH_ESC  LSFT_T(KC_ESC)
 #define L1_TAB  LT(1, KC_TAB)
@@ -97,6 +99,38 @@ enum custom_keycodes {
 };
 
 //========================================================================================
+//  create enums and a struct for tap dance
+//========================================================================================
+typedef enum {
+    TD_NONE,
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD,
+    TD_DOUBLE_SINGLE_TAP, // Send two single taps
+    TD_TRIPLE_TAP,
+    TD_TRIPLE_HOLD
+} td_state_t;
+
+typedef struct {
+    bool is_press_action;
+    td_state_t state;
+} td_tap_t;
+
+// Tap dance enums
+enum {
+    E_CTL,
+    SOME_OTHER_DANCE
+};
+
+td_state_t cur_dance(tap_dance_state_t *state);
+
+// For the x tap dance. Put it here so it can be used in any keymap
+void x_finished(tap_dance_state_t *state, void *user_data);
+void x_reset(tap_dance_state_t *state, void *user_data);
+
+//========================================================================================
 //  define macros
 //========================================================================================
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
@@ -111,7 +145,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 
     return false;
-    
+
   case EXIT_VM2:
     if (record->event.pressed) {
       SEND_STRING(
@@ -157,7 +191,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|---------/**/--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------/**/--------|
       XXXXXXX,/**/    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,/**/ XXXXXXX,
   //|---------/**/--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------/**/--------|
-      XXXXXXX,/**/   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,/**/ XXXXXXX,
+      XXXXXXX,/**/   KC_F1,   KC_F2,   KC_F3,   KC_F4, F5_SHFT,                      F6_SHFT,   KC_F7,   KC_F8,   KC_F9,  KC_F10,/**/ XXXXXXX,
   //|---------/**/--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------/**/--------|
                                               XXXXXXX, MO_LAYR, F11_GUI,    F12_GUI,  KC_DOT, XXXXXXX
                                                    //`-----------------'  `-----------------'
@@ -211,3 +245,71 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                               XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                                    //`-----------------'  `-----------------'
 #endif // 0
+
+
+//========================================================================================
+//  create a tap dance for the E key
+//
+//  tap: e
+//  hold: ctrl
+//  tap and hold: e
+//========================================================================================
+td_state_t cur_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
+        // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
+        else return TD_SINGLE_HOLD;
+    } else if (state->count == 2) {
+        // TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+        // action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+        // keystrokes of the key, and not the 'double tap' action/macro.
+        if (state->interrupted) return TD_DOUBLE_SINGLE_TAP;
+        else if (state->pressed) return TD_DOUBLE_HOLD;
+        else return TD_DOUBLE_TAP;
+    }
+
+    // Assumes no one is trying to type the same letter three times (at least not quickly).
+    // If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+    // an exception here to return a 'TD_TRIPLE_SINGLE_TAP', and define that enum just like 'TD_DOUBLE_SINGLE_TAP'
+    if (state->count == 3) {
+        if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
+        else return TD_TRIPLE_HOLD;
+    } else return TD_UNKNOWN;
+}
+
+// Create an instance of 'td_tap_t' for the 'e' tap dance.
+static td_tap_t etap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void e_finished(tap_dance_state_t *state, void *user_data) {
+    etap_state.state = cur_dance(state);
+    switch (etap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_E); break;
+        case TD_SINGLE_HOLD: register_code(KC_LCTL); break;
+        case TD_DOUBLE_TAP: register_code(KC_ESC); break;
+        case TD_DOUBLE_HOLD: register_code(KC_LALT); break;
+        // Last case is for fast typing. Assuming your key is `f`:
+        // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+        // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_E); register_code(KC_E); break;
+        default: break;
+    }
+}
+
+void e_reset(tap_dance_state_t *state, void *user_data) {
+    switch (etap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_E); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_ESC); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_LALT); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_E); break;
+        default: break;
+    }
+    etap_state.state = TD_NONE;
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [E_CTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, e_finished, e_reset)
+};
