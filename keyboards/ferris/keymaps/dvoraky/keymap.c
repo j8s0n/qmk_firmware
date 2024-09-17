@@ -20,14 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MO_LAYR XXXXXXX
 
-#define ALT_COM LALT_T(KC_COMM)
-#define CTL_DOT LCTL_T(KC_DOT)
-#define GUI_P   LGUI_T(KC_P)
-
-#define ALT_R   RALT_T(KC_R)
-#define CTL_C   LCTL_T(KC_C)
-#define GUI_G   RGUI_T(KC_G)
-
 #define A_ALT   LALT_T(KC_A)
 #define O_SFT   LSFT_T(KC_O)
 #define E_CTL   LCTL_T(KC_E)
@@ -38,24 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define S_ALT   RALT_T(KC_S)
 
 #define ZERO_SH LSFT_T(KC_0)
-#define SH_ESC  LSFT_T(KC_ESC)
-#define L1_TAB  LT(1, KC_TAB)
-#define L4_SPC  LT(4, KC_SPC)
-#define SH_ENTR RSFT_T(KC_ENT)
 
 #define L2_TAB  LT(2, KC_TAB)
-#define L2_SPC  LT(2, KC_SPC)
-#define SH_TAB  LSFT_T(KC_TAB)
 #define L1_ESC  LT(1, KC_ESC)
 #define L4_ENTR LT(4, KC_ENT)
-#define SH_SPC  RSFT_T(KC_SPC)
+
+#define PER_ALT LALT_T(KC_PERC)
+#define CAR_ALT RALT_T(KC_CIRC)
+#define _5_CTRL LCTL_T(KC_5)
+#define _6_CTRL RCTL_T(KC_6)
+#define F5_SHFT LSFT_T(KC_F5)
+#define F6_SHFT LSFT_T(KC_F6)
 #define F11_GUI LGUI_T(KC_F11)
 #define F12_GUI LGUI_T(KC_F12)
-
-#define ALT_UP  LALT(KC_UP)
-#define ALT_LF  LALT(KC_LEFT)
-#define ALT_RT  LALT(KC_RGHT)
-#define ALT_DN  LALT(KC_DOWN)
 
 #define CTL_LF  LCTL(KC_LEFT)
 #define CTL_RT  LCTL(KC_RGHT)
@@ -65,28 +52,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SHGUI_Q SGUI(KC_Q)
 #define SHGUI__ SGUI(KC_MINS)
 
-#define LGUI_UP LGUI(KC_UP)
-#define LGUI_DN LGUI(KC_DOWN)
-#define LGUI_RT LGUI(KC_RGHT)
-#define LGUI_LF LGUI(KC_LEFT)
 #define LGUI__  LGUI(KC_MINS)
-
-#define LGUI_1  LGUI(KC_1)
-#define LGUI_2  LGUI(KC_2)
-#define LGUI_3  LGUI(KC_3)
-#define LGUI_4  LGUI(KC_4)
-#define LGUI_5  LGUI(KC_5)
-#define LGUI_6  LGUI(KC_6)
-#define LGUI_7  LGUI(KC_7)
-#define LGUI_8  LGUI(KC_8)
-#define LGUI_9  LGUI(KC_9)
-#define LGUI_0  LGUI(KC_0)
 
 #define LSA_UP  LSA(KC_UP)
 #define LSA_DN  LSA(KC_DOWN)
 #define LALT_UP LALT(KC_UP)
 #define LALT_DN LALT(KC_DOWN)
 #define RCS_U   RCS(KC_U)
+#define FLASH   LALT(LCTL(QK_MAKE))
 
 //========================================================================================
 //  create an enum for keycodes I create
@@ -111,7 +84,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 
     return false;
-    
+
   case EXIT_VM2:
     if (record->event.pressed) {
       SEND_STRING(
@@ -139,25 +112,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`-----------------'  `-----------------'
   ),
 
-    [1] = LAYOUT_split_3x5_2( // Numbers and arrows
+    [1] = LAYOUT_split_3x5_2( // Arrows
   //,--------------------------------------------.                    ,--------------------------------------------.
-        TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, KC_CAPS,
+        TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, XXXXXXX,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
+      KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ZERO_SH,                      KC_RSFT,  KC_DEL, KC_BSPC,  LGUI__, SHGUI__,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, MO_LAYR,    KC_LGUI,   MO(3)
+                                            MO(6), MO_LAYR,    KC_LGUI,   MO(3)
                                       //`-----------------'  `-----------------'
   ),
 
     [2] = LAYOUT_split_3x5_2( // numbers, shifted numbers, and function keys
   //,--------------------------------------------.                    ,--------------------------------------------.
-      KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
+      KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, PER_ALT,                      CAR_ALT, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+         KC_1,    KC_2,    KC_3,    KC_4, _5_CTRL,                      _6_CTRL,    KC_7,    KC_8,    KC_9,    KC_0,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
+        KC_F1,   KC_F2,   KC_F3,   KC_F4, F5_SHFT,                      F6_SHFT,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                           MO_LAYR, F11_GUI,    F12_GUI,  KC_DOT
                                       //`-----------------'  `-----------------'
@@ -187,20 +160,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`-----------------'  `-----------------'
   ),
 
-    [5] = LAYOUT_split_3x5_2( // Numbers and arrows permanent
+    [5] = LAYOUT_split_3x5_2( // Arrows permanent
   //,--------------------------------------------.                    ,--------------------------------------------.
-        TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, KC_CAPS,
+        TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, XXXXXXX,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
+      KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ZERO_SH,                      KC_RSFT,  KC_DEL, KC_BSPC,  LGUI__, SHGUI__,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, MO_LAYR,    KC_LGUI,   MO(3)
                                       //`-----------------'  `-----------------'
+  ),
+
+    [6] = LAYOUT_split_3x5_2( // QMK functions
+  //,--------------------------------------------.                    ,--------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+      QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX
+                                      //`-----------------'  `-----------------'
   )
 };
 
-#if 0
+/*
   //,--------------------------------------------.                    ,--------------------------------------------.
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -210,4 +195,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX
                                       //`-----------------'  `-----------------'
-#endif // 0
+ */
