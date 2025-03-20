@@ -20,14 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MO_LAYR XXXXXXX
 
-#define A_ALT   LALT_T(KC_A)
-#define O_SFT   LSFT_T(KC_O)
+#define O_ALT   LALT_T(KC_O)
 #define E_CTL   LCTL_T(KC_E)
 #define U_GUI   LGUI_T(KC_U)
+#define I_SFT   LSFT_T(KC_I)
+#define D_SFT   LSFT_T(KC_D)
 #define H_GUI   LGUI_T(KC_H)
 #define T_CTL   LCTL_T(KC_T)
-#define N_SFT   LSFT_T(KC_N)
-#define S_ALT   RALT_T(KC_S)
+#define N_ALT   LALT_T(KC_N)
+#define ONE_SFT OSM(MOD_LSFT)
 
 #define ZERO_SH LSFT_T(KC_0)
 
@@ -104,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------.                    ,--------------------------------------------.
       KC_QUOT, KC_COMM,  KC_DOT,    KC_P,    KC_Y,                         KC_F,    KC_G,    KC_C,    KC_R,    KC_L,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        A_ALT,   O_SFT,   E_CTL,   U_GUI,    KC_I,                         KC_D,   H_GUI,   T_CTL,   N_SFT,   S_ALT,
+         KC_A,   O_ALT,   E_CTL,   U_GUI,   I_SFT,                        D_SFT,   H_GUI,   T_CTL,   N_ALT,    KC_S,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
       KC_SCLN,    KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -156,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
        KC_GRV, KC_QUES, KC_UNDS, KC_LCBR, XXXXXXX,                      XXXXXXX, KC_RCBR, KC_PLUS, KC_PIPE, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX,    MO_LAYR, XXXXXXX
+                                          KC_LSFT, ONE_SFT,    MO_LAYR, XXXXXXX
                                       //`-----------------'  `-----------------'
   ),
 
@@ -164,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------.                    ,--------------------------------------------.
         TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, XXXXXXX,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-      KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ZERO_SH,                      KC_RSFT,  KC_DEL, KC_BSPC,  LGUI__, SHGUI__,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
