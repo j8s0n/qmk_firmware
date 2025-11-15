@@ -1,0 +1,2 @@
+modprobe cdc-acm
+qmk flash -km dvoraky -kb ferris/sweep

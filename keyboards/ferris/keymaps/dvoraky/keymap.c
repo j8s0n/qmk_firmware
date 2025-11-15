@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAR_ALT RALT_T(KC_CIRC)
 #define _5_CTRL LCTL_T(KC_5)
 #define _6_CTRL RCTL_T(KC_6)
+#define _4_ALT  LALT_T(KC_4)
+#define _7_ALT  RALT_T(KC_7)
 #define F5_SHFT LSFT_T(KC_F5)
 #define F6_SHFT LSFT_T(KC_F6)
 #define F11_GUI LGUI_T(KC_F11)
@@ -117,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------.                    ,--------------------------------------------.
         TG(5), XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,                      KC_PGUP, KC_HOME,   KC_UP,  KC_END, XXXXXXX,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-      KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CW_TOGG,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ZERO_SH,                      KC_RSFT,  KC_DEL, KC_BSPC,  LGUI__, SHGUI__,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -129,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------.                    ,--------------------------------------------.
       KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-         KC_1,    KC_2,    KC_3,    KC_4, _5_CTRL,                      _6_CTRL,    KC_7,    KC_8,    KC_9,    KC_0,
+         KC_1,    KC_2,    KC_3,  _4_ALT, _5_CTRL,                      _6_CTRL,  _7_ALT,    KC_8,    KC_9,    KC_0,
   //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
         KC_F1,   KC_F2,   KC_F3,   KC_F4, F5_SHFT,                      F6_SHFT,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
   //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
